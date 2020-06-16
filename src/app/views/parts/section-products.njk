@@ -9,10 +9,15 @@
       {%for product in products%}
         <div class="product">
           <div class="image" 
-              style="background: url({{product.img if product.img else '//placehold.it/500x360'}})">
+          {% if product.img %}
+          style="background-image: url('{{product.img}}')"
+          {% else %}
+          style="background-image: url('http://placehold.it/500x360')"
+          {% endif %}
+          >
           </div>
 
-          {%if product.oldPrice != product.price%}
+          {%if product.oldPrice != product.price%{
             <div class="old-price">{{product.oldPrice}}</div>
             {%endif%}
             <p>{{product.price}}</p>
