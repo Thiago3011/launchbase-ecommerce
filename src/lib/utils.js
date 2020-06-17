@@ -24,9 +24,9 @@ module.exports = {
       style: 'currency',
       currency: 'BRL'
     })
-      .format(price / 100)
-      .split('.')
+      .format(price / 100) // 0,000.00
+      .split('.') // [0,000] e [00]
 
-    return `${formatted[0].split(',').join('.')},${formatted[1]}`
+    return `${formatted[0].split(',').join('.')},${formatted[1]}` // [0] e [000] => 0.000 => 0.000,00
   }
 }
