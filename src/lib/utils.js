@@ -20,9 +20,13 @@ module.exports = {
     }
   },
   formatPrice (price) {
-    return new Intl.NumberFormat('pt-BR', {
+    const formatted = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL'
-    }).format(price / 100)
+    })
+      .format(price / 100)
+      .split('.')
+
+    return `${formatted[0].split(',').join('.')},${formatted[1]}`
   }
 }
