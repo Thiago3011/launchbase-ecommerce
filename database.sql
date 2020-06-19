@@ -17,6 +17,10 @@ CREATE TABLE "categories" (
   "name" text
 );
 
+INSERT INTO categories(name) VALUES ('Comida');
+INSERT INTO categories(name) VALUES ('Eletrônicos');
+INSERT INTO categories(name) VALUES ('Automóveis');
+
 CREATE TABLE "files" (
   "id" SERIAL PRIMARY KEY,
   "name" text,
@@ -30,7 +34,7 @@ CREATE TABLE "users" (
   "name" text NOT NULL,
   "email" text UNIQUE NOT NULL,
   "password" text NOT NULL,
-  "cpf_cnpj" int UNIQUE NOT NULL,
+  "cpf_cnpj" text UNIQUE NOT NULL,
   "cep" text,
   "address" text,
   "created_at" timestamp DEFAULT (now()),
