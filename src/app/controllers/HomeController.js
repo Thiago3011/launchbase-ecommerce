@@ -10,6 +10,7 @@ module.exports = {
 
       return files[0]
     }
+
     try {
       const results = await Product.all()
       const products = results.rows
