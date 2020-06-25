@@ -31,6 +31,25 @@ async function login (req, res, next) {
   }
 }
 
+async function forgot (req, res, next) {
+  const { email } = req.body
+  try {
+    const user = await User.findOne({ where: { email } })
+
+    if (!user) {
+      return res.render('session/forgot-password', {
+        user: req.body,
+        error: 'Email não cadastrado'
+      })
+    }
+
+    next()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
-  login
+  login,
+  forgot
 }
