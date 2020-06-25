@@ -24,9 +24,11 @@ module.exports = {
       }
     }
 
-    if (req.files.length === 0) { return res.send('Please, send at least one image') }
+    if (req.files.length === 0) {
+      return res.send('Please, send at least one image')
+    }
 
-    const results = await Product.create(req.body)
+    const results = await Product.create(req.body, req.session.userId)
     const productId = results.rows[0].id
 
     const filesPromise = req.files.map(file => File.create({ ...file, productId }))
@@ -120,11 +122,18 @@ module.exports = {
       req.body.old_price = oldProduct.rows[0].price
     }
 
-    await Product.update(req.body)
+    await Product.update(req.body, req.session.userId)
 
     return res.redirect(`/products/${req.body.id}`)
   },
   async delete (req, res) {
+    const results = await Product.files(req.body.id)
+    const files = results.rows
+
+    for (const file of files) {
+      await File.delete(file.id)
+    }
+
     await Product.delete(req.body.id)
 
     return res.redirect('/products/create')

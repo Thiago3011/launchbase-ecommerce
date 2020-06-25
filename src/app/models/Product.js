@@ -7,7 +7,7 @@ module.exports = {
         ORDER BY updated_at DESC
         `)
   },
-  create (data) {
+  create (data, userId) {
     const query = `
             INSERT INTO products (
                 category_id,
@@ -25,7 +25,7 @@ module.exports = {
 
     const values = [
       data.category_id,
-      data.user_id || 1,
+      userId,
       data.name,
       data.description,
       data.old_price || data.price,
@@ -39,7 +39,7 @@ module.exports = {
   find (id) {
     return db.query('SELECT * FROM products WHERE id = $1', [id])
   },
-  update (data) {
+  update (data, userId) {
     const query = `
             UPDATE products SET
                 category_id=($1),
@@ -55,7 +55,7 @@ module.exports = {
 
     const values = [
       data.category_id,
-      data.user_id,
+      userId,
       data.name,
       data.description,
       data.old_price,
