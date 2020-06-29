@@ -4,19 +4,17 @@ const File = require('../models/File')
 
 const { formatPrice, date } = require('../../lib/utils')
 
-
 module.exports = {
-  async create(req, res) {
+  async create (req, res) {
     // Pegar Categorias
     try {
       const categories = await Category.findAll()
       return res.render('products/create', { categories })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-
   },
-  async post(req, res) {
+  async post (req, res) {
     try {
       const keys = Object.keys(req.body)
 
@@ -30,8 +28,10 @@ module.exports = {
         return res.send('Please, send at least one image')
       }
 
-      let { category_id, name, description, old_price,
-        price, quantity, status } = req.body
+      let {
+        category_id, name, description, old_price,
+        price, quantity, status
+      } = req.body
 
       price = price.replace(/\D/g, '')
 
@@ -52,11 +52,10 @@ module.exports = {
 
       return res.redirect(`/products/${product_id}`)
     } catch (error) {
-      console.error(error);
-
+      console.error(error)
     }
   },
-  async show(req, res) {
+  async show (req, res) {
     try {
       const product = await Product.find(req.params.id)
 
@@ -80,11 +79,10 @@ module.exports = {
 
       return res.render('products/show', { product, files })
     } catch (error) {
-      console.error(error);
-
+      console.error(error)
     }
   },
-  async edit(req, res) {
+  async edit (req, res) {
     try {
       const product = await Product.find(req.params.id)
 
@@ -105,11 +103,10 @@ module.exports = {
 
       return res.render('products/edit', { product, categories, files })
     } catch (error) {
-      console.error(error);
-
+      console.error(error)
     }
   },
-  async put(req, res) {
+  async put (req, res) {
     try {
       const keys = Object.keys(req.body)
 
@@ -142,7 +139,6 @@ module.exports = {
         await Promise.all(removedFilesPromise)
       }
 
-
       req.body.price = req.body.price.replace(/\D/g, '')
 
       if (req.body.old_price !== req.body.price) {
@@ -156,16 +152,16 @@ module.exports = {
         description: req.body.description,
         old_price: req.body.old_price,
         price: req.body.price,
-        quantity: reqquantityory_id,
-        status: req.body.status,
+        quantity: req.quantity_id,
+        status: req.body.status
       })
 
       return res.redirect(`/products/${req.body.id}`)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
-  async delete(req, res) {
+  async delete (req, res) {
     const files = await Product.files(req.body.id)
 
     for (const file of files) {
