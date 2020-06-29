@@ -1,10 +1,9 @@
 const db = require('../../config/db')
-const { create, delete } = require('./File')
 
-function find(filters, table) {
+function find (filters, table) {
   let query = `SELECT * FROM ${table}
   `
-  if(filters){
+  if (filters) {
     Object.keys(filters).map(key => {
       query += `${key}`
 
@@ -13,41 +12,39 @@ function find(filters, table) {
       })
     })
   }
-  
-      return db.query(query)
+
+  return db.query(query)
 }
 
 const Base = {
-  init({ table }) {
+  init ({ table }) {
     if (!table) throw new Error('Invalid Params')
 
     this.table = table
-
-
   },
-  async find(id) {
-    const results = await find({where: { id } }, this.table)
-  
+  async find (id) {
+    const results = await find({ where: { id } }, this.table)
+
     return results.rows[0]
   },
-  async findOne(filters) {
+  async findOne (filters) {
     const results = await find(filters, this.table)
-  
+
     return results.rows[0]
   },
-  async findAll(filters) {
+  async findAll (filters) {
     const results = await find(filters, this.table)
-  
+
     return results.rows
   },
-  async create(fields) {
+  async create (fields) {
     try {
-      let keys = [],
-        values = []
+      const keys = []
+      const values = []
 
       Object.keys(fields).map(key => {
         keys.push(key)
-        values.push(fields[key])
+        values.push(`'${fields[key]}'`)
       })
 
       const query = `INSERT INTO ${this.table} (${keys.join(',')})
@@ -61,28 +58,26 @@ const Base = {
       console.error(error)
     }
   },
-  update(id, fields) {
-
+  update (id, fields) {
     try {
-
-      let update = []
+      const update = []
       Object.keys(fields).map(key => {
         const line = `${key} = '${fields[key]}'`
         update.push(line)
       })
 
-      let query = `UPDATE ${this.table} SET
+      const query = `UPDATE ${this.table} SET
     ${update.join(',')} WHERE id = ${id}
     `
 
       return db.query(query)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   },
   delete (id) {
     return db.query(`DELETE FROM ${this.table} WHERE id = $1`, [id])
-  },
+  }
 }
 
 module.exports = Base
