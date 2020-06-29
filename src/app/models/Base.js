@@ -18,9 +18,11 @@ function find (filters, table) {
 
 const Base = {
   init ({ table }) {
-    if (!table) throw new Error('Invalid Params')
+    if (!table) { throw new Error('Invalid Params') }
 
     this.table = table
+
+    return this
   },
   async find (id) {
     const results = await find({ where: { id } }, this.table)
