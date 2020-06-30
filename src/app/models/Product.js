@@ -1,3 +1,4 @@
+const db = require('../../config/db')
 const Base = require('./Base')
 
 Base.init({ table: 'products' })
@@ -9,7 +10,7 @@ module.exports = {
             SELECT * FROM files WHERE product_id = $1
         `, [id])
 
-        return results.rows
+    return results.rows
   },
   async search (params) {
     const { filter, category } = params
@@ -42,36 +43,3 @@ module.exports = {
     return results.rows
   }
 }
-
-  // create (data, userId) {
-  //   const query = `
-  //           INSERT INTO products (
-  //               category_id,
-  //               user_id,
-  //               name,
-  //               description,
-  //               old_price,
-  //               price,
-  //               quantity,
-  //               status
-  //           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-  //           RETURNING id
-  //       `
-  //   data.price = data.price.replace(/\D/g, '')
-
-  //   const values = [
-  //     data.category_id,
-  //     userId,
-  //     data.name,
-  //     data.description,
-  //     data.old_price || data.price,
-  //     data.price,
-  //     data.quantity,
-  //     data.status || 1
-  //   ]
-
-  //   return db.query(query, values)
-  // },
-
-
-

@@ -24,7 +24,7 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const { name, email, password, cpf_cnpj, cep, address } = req.body
+      let { name, email, password, cpf_cnpj, cep, address } = req.body
 
       password = await hash(password, 8)
       cpf_cnpj = cpf_cnpj.replace(/\D/g, '')
@@ -89,8 +89,8 @@ module.exports = {
 
       // remover as imagens da pasta public
 
-      promiseResults.map(results => {
-        results.rows.map(file => {
+      promiseResults.map(files => {
+        files.map(file => {
           try {
             fs.unlinkSync(file.path)
           } catch (err) {
