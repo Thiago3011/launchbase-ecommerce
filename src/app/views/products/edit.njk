@@ -1,37 +1,35 @@
 {% extends "layout.njk" %}
 
+{% import "parts/card.njk" as card %}
+
 {% block content %}
 
-    <section class="container form">
-        <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data">
-            <div class="header">
-                <h3>Editar Produto</h3>
-            </div>
+    {% call card.render('Editar Produto', 'product-create container') %}
+    <form method="POST" action="/products?_method=PUT" enctype="multipart/form-data">
 
-            <div class="fields">
-                {% include 'products/fields.njk' %}
-                <input type="hidden" name="id" value={{product.id}}>
-            </div>
-
-            <button class="button edit" type="submit">Atualizar</button>
-
-        </form>
-
-        <form id="form-delete" action="/products?_method=DELETE" method="POST">
+        <div class="fields">
+            {% include 'products/fields.njk' %}
             <input type="hidden" name="id" value={{product.id}}>
-            <button class="button delete" type="submit">Deletar</button>
-        </form>
-    </section>
+        </div>
 
-    <script>
-        const formDelete = document.querySelector('#form-delete')
+        <button class="button edit" type="submit">Atualizar</button>
 
-        formDelete.addEventListener("submit", function (e) {
-            const confirmation = confirm("Deseja Deletar?")
-            if (!confirmation) {
-                event.preventDefault()
-            }
-        })
-    </script>
+    </form>
+
+    <form id="form-delete" action="/products?_method=DELETE" method="POST">
+        <input type="hidden" name="id" value={{product.id}}>
+        <button class="button delete" type="submit">Deletar</button>
+    </form>
+{% endcall %}
+<script>
+    const formDelete = document.querySelector('#form-delete')
+
+    formDelete.addEventListener("submit", function (e) {
+        const confirmation = confirm("Deseja Deletar?")
+        if (!confirmation) {
+            event.preventDefault()
+        }
+    })
+</script>
 
 {% endblock content %}
